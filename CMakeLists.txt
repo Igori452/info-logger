@@ -12,6 +12,7 @@ option(BUILD_TESTS "Build the testing suite" OFF)
 option(BUILD_SHARED_LIBS "Build libraries as shared" OFF)
 
 add_subdirectory(logger_lib)
+add_subdirectory(app)
 
 if (BUILD_TESTS)
     enable_testing()
