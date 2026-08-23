@@ -1,4 +1,4 @@
-#include "LoggerMessage.hpp"
+#include "logger_lib/LoggerMessage.hpp"
 
 #include <sstream>
 #include <iomanip>
@@ -38,7 +38,7 @@ std::string LoggerMessageFormater::formatToText(const LoggerMessage& lgmsg)
         case MessageLevel::ERROR:   messageLevelString = "ERROR  "; break;
     }
 
-    ss << "[ " << messageLevelString << " ]" << lgmsg.getMessage() << ".\n";
+    ss << "[ " << messageLevelString << " ] " << lgmsg.getMessage() << ".\n";
 
     return ss.str();
 }

@@ -1,4 +1,4 @@
-#include "app/ThreadManager/ThreadManager.hpp"
+#include "ThreadManager/ThreadManager.hpp"
 #include "AppTests.hpp"
 
 #include <cassert>

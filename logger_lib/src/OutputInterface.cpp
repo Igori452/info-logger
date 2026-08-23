@@ -1,4 +1,4 @@
-#include "OutputInterface.hpp"
+#include "logger_lib/OutputInterface.hpp"
 
 OFileInterface::OFileInterface(std::string_view path_) 
     : path(std::filesystem::path(path_)), ofile(path, std::ios::app) {}

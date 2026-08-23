@@ -1,9 +1,10 @@
 project(unit_tests)
 
-file(GLOB_RECURSE UNIT_TESTS_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
-file(GLOB_RECURSE THREAD_MANAGER_SOURCES "${CMAKE_SOURCE_DIR}/app/ThreadManager/*.cpp")
+add_executable(${PROJECT_NAME} 
+    AppTests/AppTests.cpp
+    LoggerLibTests/LoggerLibTests.cpp
+    main_tests.cpp)
 
-add_executable(unit_tests ${UNIT_TESTS_SOURCES} ${THREAD_MANAGER_SOURCES})
-target_link_libraries(unit_tests PRIVATE logger_lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE logger_lib app_core)
 
-add_test(NAME core_tests COMMAND unit_tests)
+add_test(NAME core_tests COMMAND ${PROJECT_NAME})

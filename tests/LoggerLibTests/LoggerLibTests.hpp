@@ -1,6 +1,6 @@
 #pragma once
 
-#include "logger_lib/include/Logger.hpp"
+#include "logger_lib/Logger.hpp"
 
 #include <vector>
 #include <sstream>

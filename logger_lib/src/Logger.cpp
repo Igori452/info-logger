@@ -1,4 +1,4 @@
-#include "Logger.hpp"
+#include "logger_lib/Logger.hpp"
 
 Logger::Logger(MessageLevel defaultMessageLevel, std::unique_ptr<OutputInterface> out_) 
     : defaultMessageLevel(defaultMessageLevel), out(std::move(out_)) {}
