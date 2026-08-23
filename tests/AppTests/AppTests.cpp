@@ -71,13 +71,21 @@ void AppTests::test_thread_manager_error_operation()
 
     ThreadManager threadManager {};
 
-    LoggerMessage lgmsg {"Test1", MessageLevel::INFO};
-    threadManager.push(lgmsg);
+    LoggerMessage lgmsg1 {"Test1", MessageLevel::INFO};
+    LoggerMessage lgmsg2 {"Test2", MessageLevel::INFO};
+    threadManager.push(lgmsg1);
+    threadManager.push(lgmsg2);
+
+    threadManager.setError(make_error_code(LoggerError::FILTERED));
+    auto res = threadManager.pop();
+    assert(res);
+    assert(!threadManager.hasStop());
 
     threadManager.setError(make_error_code(LoggerError::FILE_NOT_OPEN));
 
-    auto res = threadManager.pop();
+    res = threadManager.pop();
     assert(!res);
+    assert(threadManager.hasStop());
 
     threadManager.setError(make_error_code(LoggerError::WRITE_FAILED));
     assert(threadManager.getError() == make_error_code(LoggerError::FILE_NOT_OPEN));

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <thread>
 
-void loggerWorker(ThreadManager& thm, Logger&& lg) 
+void loggerWorker(ThreadManager& thm, Logger& lg) 
 {
     auto msg = thm.pop();
     while(true) 
@@ -15,15 +15,7 @@ void loggerWorker(ThreadManager& thm, Logger&& lg)
 
         if (std::error_code err = lg.log(*msg); err.value())
         {
-            if (err.value() != static_cast<int>(LoggerError::FILTERED)) 
-            {
-                std::cout << "Предупреждение! Сообщение: " << LoggerMessageFormater::formatToText(*msg) << "\nБыло отфильтровано\n";
-            }
-            else 
-            {
-                thm.setError(err);
-                break;
-            }
+            thm.setError(err);
         }
 
         msg = thm.pop();
@@ -54,16 +46,11 @@ int main(int argc, char* argv[])
     }
 
     ThreadManager threadManager {};
-    std::thread logger {loggerWorker, std::ref(threadManager), Logger{*defaultLvl, argv[2]}};
+    Logger lg {*defaultLvl, argv[2]};
+    std::thread logger {loggerWorker, std::ref(threadManager), std::ref(lg)};
 
     while (true) 
     {
-        if (auto err = threadManager.getError(); err) 
-        {
-            std::cout << "Возникла ошибка обработки сообщения!\n" << err->message() << '\n';
-            break;
-        }
-
         std::cout << "\nВведите сообщение, для выхода пустая строка: ";
         std::string msg {};
         std::getline(std::cin, msg);
@@ -91,6 +78,13 @@ int main(int argc, char* argv[])
         else 
         {
             std::cout << "Ошибка! Неверный формат уровня важности\n";
+            continue;
+        }
+
+        if (auto err = threadManager.getError(); err && threadManager.hasStop()) 
+        {
+            std::cout << "Возникла критическая ошибка обработки сообщения!\n" << err->message() << '\n';
+            break;
         }
     }
 

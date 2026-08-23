@@ -28,8 +28,8 @@ class ThreadManager
         std::optional<LoggerMessage> pop();
         
         void stop();
+        bool hasStop() const;
 
         void setError(std::error_code ec);
         std::optional<std::error_code> getError() const;
-
 };

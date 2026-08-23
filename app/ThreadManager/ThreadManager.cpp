@@ -1,5 +1,7 @@
 #include "ThreadManager.hpp"
 
+#include <iostream>
+
 ThreadManager::ThreadManager() : stopFlag(false), err(make_error_code(LoggerError::SUCCESS)) {};
 
 void ThreadManager::push(const LoggerMessage& lgmsg) 
@@ -28,7 +30,7 @@ std::optional<LoggerMessage> ThreadManager::pop()
         return !loggerMessageQueue.empty() || stopFlag;
     });
 
-    if (err || (loggerMessageQueue.empty() && stopFlag)) 
+    if ((loggerMessageQueue.empty() && stopFlag) || (stopFlag && err)) 
     {
         return std::nullopt;
     }
@@ -52,6 +54,12 @@ void ThreadManager::stop()
     workerFlag.notify_all();
 }
 
+bool ThreadManager::hasStop() const 
+{
+    std::lock_guard<std::mutex> lock {mt};
+    return stopFlag;
+}
+
 void ThreadManager::setError(std::error_code ec) 
 {
     std::lock_guard<std::mutex> lock {mt};
@@ -62,7 +70,13 @@ void ThreadManager::setError(std::error_code ec)
     }
 
     err = ec;
-    stopFlag = true;
+
+    if (    err.value() != static_cast<int>(LoggerError::SUCCESS) 
+        &&  err.value() != static_cast<int>(LoggerError::FILTERED)) 
+    {
+        stopFlag = true;
+    }
+
     workerFlag.notify_all();
 }
 
@@ -74,5 +88,6 @@ std::optional<std::error_code> ThreadManager::getError() const
     {
         return err;
     }
+
     return std::nullopt;
 }
