@@ -1,0 +1,16 @@
+#include "AppTests/AppTests.hpp"
+#include "LoggerLibTests/LoggerLibTests.hpp"
+
+int main () 
+{
+    LoggerLibTests::test_logger_with_mock();
+    LoggerLibTests::test_logger_with_file();
+
+    AppTests::test_thread_manager_queue();
+    AppTests::test_thread_manager_stop_operation();
+    AppTests::test_thread_manager_error_operation();
+    AppTests::test_thread_manager_with_two_thread();
+    AppTests::test_thread_manager_with_two_thread_error_operation();
+
+    return 0;
+}

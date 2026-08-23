@@ -1,30 +1,18 @@
-#include "logger_lib/include/Logger.hpp"
+#include "LoggerLibTests.hpp"
 
 #include <cassert>
-#include <sstream>
-#include <vector>
+#include <iostream>
 
-namespace TestContext 
-{
-
-class MockInterface : public OutputInterface 
-{
-    public:
-        std::vector<std::string> messages;
-
-        std::error_code write(std::string_view message) override;
-};
-
-std::error_code MockInterface::write(std::string_view message) 
+std::error_code TestContext::MockInterface::write(std::string_view message) 
 {
     messages.emplace_back(message);
     return make_error_code(LoggerError::SUCCESS);
 }
 
-}
-
-void test_logger_with_mock() 
+void LoggerLibTests::test_logger_with_mock() 
 {
+    std::cout << "Start test_logger_with_mock...\n";
+
     auto mock = std::make_unique<TestContext::MockInterface>();
     auto* mockPtr = mock.get();
 
@@ -66,11 +54,14 @@ void test_logger_with_mock()
     err = lg.log(lgmsgError.getMessage(), lgmsgError.getMessageLevel());
     assert(err.value() == static_cast<int>(LoggerError::SUCCESS));
     assert(!mockPtr->messages.empty());
-}
-#include <iostream>
 
-void test_logger_with_file() 
+    std::cout << "Test SUCCESS!\n\n";
+}
+
+void LoggerLibTests::test_logger_with_file() 
 {
+    std::cout << "Start test_logger_with_file...\n";
+
     MessageLevel defaultMsgLevel = MessageLevel::INFO;
     LoggerMessage lgmsg {"Info message", defaultMsgLevel};
 
@@ -100,12 +91,6 @@ void test_logger_with_file()
         ifile.close();
         std::filesystem::remove(filename);
     }
-}
 
-int main () 
-{
-    test_logger_with_mock();
-    test_logger_with_file();
-
-    return 0;
+    std::cout << "Test SUCCESS!\n\n";
 }
