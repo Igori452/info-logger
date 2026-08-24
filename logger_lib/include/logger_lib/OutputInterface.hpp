@@ -5,6 +5,12 @@
 #include <filesystem>
 #include <fstream>
 
+/**
+ * Абстрактный интерфейс стратегии вывода (паттерн Стратегия).
+ * 
+ * Позволяет подменять реализацию вывода (файл, сокет, UI и т.д.)
+ * без изменения логики логгера.
+ */
 class OutputInterface 
 {
     public:
@@ -12,6 +18,9 @@ class OutputInterface
         virtual ~OutputInterface() = default;
 };
 
+/**
+ * Реализация интерфейса вывода для записи в файл.
+ */
 class OFileInterface : public OutputInterface 
 {
     private:
