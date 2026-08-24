@@ -94,3 +94,34 @@ void LoggerLibTests::test_logger_with_file()
 
     std::cout << "Test SUCCESS!\n\n";
 }
+
+void LoggerLibTests::formater_roundtrip_test() 
+{
+    std::cout << "Start formater_roundtrip_test...\n";
+    LoggerMessage lgmsg {"Info test text", MessageLevel::INFO};
+
+    auto fromFormatedLgmsg = LoggerMessageFormater::formatToLoggerMessage(LoggerMessageFormater::formatToText(lgmsg));
+
+    assert(fromFormatedLgmsg);
+    assert(lgmsg.getMessage() == fromFormatedLgmsg->getMessage());
+    assert(lgmsg.getMessageLevel() == fromFormatedLgmsg->getMessageLevel());
+
+    auto originalTime = std::chrono::time_point_cast<std::chrono::seconds>(lgmsg.getTimeCreation());
+    auto formatedTime = std::chrono::time_point_cast<std::chrono::seconds>(fromFormatedLgmsg->getTimeCreation());
+
+    assert(originalTime == formatedTime);
+
+    auto invalid = LoggerMessageFormater::formatToLoggerMessage("test");
+    assert(!invalid);
+
+    invalid = LoggerMessageFormater::formatToLoggerMessage("[ 2026-08-21 14:54:44 ] [ INF     ] message.\n");
+    assert(!invalid);
+
+    invalid = LoggerMessageFormater::formatToLoggerMessage("[ 2026-08-21 14:54:44 ] [ INFO     ].\n");
+    assert(!invalid);
+
+    invalid = LoggerMessageFormater::formatToLoggerMessage("[ 2026-08-21 14:54:44 ] [ INFO     ] .\n");
+    assert(invalid);
+
+    std::cout << "Test SUCCESS!\n\n";
+}

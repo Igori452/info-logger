@@ -8,6 +8,7 @@ int main ()
 {
     LoggerLibTests::test_logger_with_mock();
     LoggerLibTests::test_logger_with_file();
+    LoggerLibTests::formater_roundtrip_test();
 
     AppTests::test_thread_manager_queue();
     AppTests::test_thread_manager_stop_operation();

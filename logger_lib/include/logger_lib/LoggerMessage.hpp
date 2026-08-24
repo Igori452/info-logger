@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <string>
+#include <optional>
 
 /**
  * Уровни важности сообщений логирования.
@@ -26,6 +27,7 @@ class LoggerMessage
     public:
         LoggerMessage() = delete;
         LoggerMessage(std::string message_, MessageLevel messageLevel_);
+        LoggerMessage(std::string message_, MessageLevel messageLevel_, TimePoint timeCreation_);
 
         const std::string& getMessage() const;
         MessageLevel getMessageLevel() const;
@@ -37,10 +39,14 @@ class LoggerMessage
  */
 class LoggerMessageFormater 
 {
+    private:
+        static constexpr std::string_view timeMask = "%Y-%m-%d %H:%M:%S";
+
     public:
 
-        // [2026-08-21 14:54:44] [ INFO    ] message.
-        // [2026-08-21 14:54:44] [ WARNING ] message.
-        // [2026-08-21 14:54:44] [ ERROR   ] message.
+        // [ 2026-08-21 14:54:44 ] [ INFO    ] message.
+        // [ 2026-08-21 14:54:44 ] [ WARNING ] message.
+        // [ 2026-08-21 14:54:44 ] [ ERROR   ] message.
         static std::string formatToText(const LoggerMessage& lgmsg);
+        static std::optional<LoggerMessage> formatToLoggerMessage(std::string_view formatedMessage);
 };
