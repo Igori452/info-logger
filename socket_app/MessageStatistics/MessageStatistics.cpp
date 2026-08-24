@@ -1,0 +1,60 @@
+#include "MessageStatistics.hpp"
+
+#include <algorithm>
+
+bool MessageStatistics::hasChanged() 
+{
+    bool dataChanged_ {dataChanged};
+    dataChanged = false;
+    return dataChanged_;
+}
+
+void MessageStatistics::setData(const LoggerMessage& lgmsg) 
+{
+    dataChanged = true;
+
+    ++totalMessages, ++totalLevelMessage[lgmsg.getMessageLevel()];
+
+    const TimePoint now = std::chrono::system_clock::now();
+    totalMessagesAnHour.emplace_back(now);
+
+    const auto oneHourAgo = now - std::chrono::hours(1);
+    const auto removeIt = std::remove_if(std::begin(totalMessagesAnHour), std::end(totalMessagesAnHour), [oneHourAgo](const TimePoint& tmp){
+        return oneHourAgo >= tmp;
+    });
+    totalMessagesAnHour.erase(removeIt, std::end(totalMessagesAnHour));
+
+    const size_t messageLen = LoggerMessageFormater::formatToText(lgmsg).size();
+
+    minLenMessage = std::min(messageLen, minLenMessage);
+    maxLenMessage = std::max(messageLen, maxLenMessage);
+    averageLenMessage = (averageLenMessage * (totalMessages - 1) + messageLen) / totalMessages;
+}
+
+size_t MessageStatistics::getTotalMessages() const 
+{
+    return totalMessages;
+}
+const std::map<MessageLevel, size_t>& MessageStatistics::getTotalLevelMessage() const 
+{
+    return totalLevelMessage;
+}
+size_t MessageStatistics::getTotalMessagesAnHour() const 
+{
+    return totalMessagesAnHour.size();
+}
+
+size_t MessageStatistics::getMinLenMessage() const 
+{
+    return (totalMessages == 0 ? 0 : minLenMessage);
+}
+
+size_t MessageStatistics::getMaxLenMessage() const 
+{
+    return maxLenMessage;
+}
+
+size_t MessageStatistics::getAverageLenMessage() const 
+{
+    return averageLenMessage;
+}

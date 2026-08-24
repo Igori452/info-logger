@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 
-class MessageStatistic 
+class MessageStatistics 
 {
     private:
         using TimePoint = std::chrono::system_clock::time_point;
@@ -21,10 +21,16 @@ class MessageStatistic
         size_t averageLenMessage {0};
 
     public:
-        MessageStatistic() = default;
+        MessageStatistics() = default;
 
         bool hasChanged();
         void setData(const LoggerMessage& lgmsg);
 
-        void printStatistic(std::ostream& os) const;
+        size_t getTotalMessages() const;
+        const std::map<MessageLevel, size_t>& getTotalLevelMessage() const;
+        size_t getTotalMessagesAnHour() const;
+
+        size_t getMinLenMessage() const;
+        size_t getMaxLenMessage() const;
+        size_t getAverageLenMessage() const;
 };
