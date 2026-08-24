@@ -24,7 +24,7 @@ class OutputInterface
 class OFileInterface : public OutputInterface 
 {
     private:
-        const std::filesystem::path path;
+        std::filesystem::path path;
         std::ofstream ofile;
 
     public:
@@ -34,4 +34,31 @@ class OFileInterface : public OutputInterface
         std::error_code write(std::string_view message) override;
 };
 
-/* РЕАЛИЗАЦИЯ ИНТЕРФЕЙСА ВЫВОДА ДЛЯ СОКЕТА */
+/**
+ * Реализация интерфейса вывода для записи в сокет (для Linux).
+ */
+class OSocketInterface : public OutputInterface
+{
+    private:
+        std::string ip;
+        uint16_t port;
+
+        int socketObject;
+
+        std::error_code connectToServer();
+        void disconnect();
+
+    public:
+        OSocketInterface() = delete;
+        OSocketInterface(std::string_view ip_, uint16_t port_);
+
+        std::error_code write(std::string_view message) override;
+
+        OSocketInterface(const OSocketInterface&) = delete;
+        OSocketInterface& operator=(const OSocketInterface&) = delete;
+
+        OSocketInterface(OSocketInterface&& other) noexcept;
+        OSocketInterface& operator=(OSocketInterface&& other) noexcept;
+
+        ~OSocketInterface();
+};

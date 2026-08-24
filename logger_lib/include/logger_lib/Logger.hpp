@@ -22,6 +22,7 @@ class Logger
         Logger() = delete;
         Logger(MessageLevel defaultMessageLevel, std::unique_ptr<OutputInterface> out_);
         Logger(MessageLevel defaultMessageLevel, std::string_view journalName);
+        Logger(MessageLevel defaultMessageLevel, std::string_view ip, uint16_t port);
 
         void setDefaultMessageLevel(MessageLevel defaultMessageLevel_);
         MessageLevel getDefaultMessageLevel() const;
