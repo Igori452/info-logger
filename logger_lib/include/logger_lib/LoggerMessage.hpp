@@ -3,8 +3,17 @@
 #include <chrono>
 #include <string>
 
+/**
+ * Уровни важности сообщений логирования.
+ */
 enum class MessageLevel {INFO = 0, WARNING = 1, ERROR = 2};
 
+/**
+ * Неизменяемый объект сообщения с автоматической фиксацией времени создания.
+ * 
+ * Время создания фиксируется в конструкторе через std::chrono::system_clock.
+ * Все поля доступны только для чтения через геттеры.
+ */
 class LoggerMessage 
 {
     private:
@@ -23,6 +32,9 @@ class LoggerMessage
         const TimePoint& getTimeCreation() const;
 };
 
+/**
+ * Класс-фабрика для форматирования сообщений в текстовый вид.
+ */
 class LoggerMessageFormater 
 {
     public:

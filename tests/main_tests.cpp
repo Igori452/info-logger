@@ -1,6 +1,9 @@
 #include "AppTests/AppTests.hpp"
 #include "LoggerLibTests/LoggerLibTests.hpp"
 
+/**
+ * Точка входа в программу юнит-тестирования.
+ */
 int main () 
 {
     LoggerLibTests::test_logger_with_mock();
