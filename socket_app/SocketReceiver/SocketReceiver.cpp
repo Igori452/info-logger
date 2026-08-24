@@ -1,7 +1,6 @@
 #include "SocketReceiver.hpp"
 
 #include <sys/socket.h>
-#include <sys/ioctl.h>
 #include <poll.h>
 
 #include <vector>
@@ -40,23 +39,20 @@ std::error_code SocketReceiver::waitData(size_t timeoutSeconds) const
 
 bool SocketReceiver::readFromNetwork()
 {
-    int bytesAvailable {0};
-    if (::ioctl(socketObject, FIONREAD, &bytesAvailable) < 0 || bytesAvailable == 0)
-    {
-        return false;
-    } 
+    char msgBuffer[4096] {};
+    bool readData {false};
 
-    std::vector<char> msgBuffer (bytesAvailable);
-    ssize_t bytesRecv = ::recv(socketObject, msgBuffer.data(), msgBuffer.size(), 0);
-
-    if (bytesRecv <= 0)
+    ssize_t bytesRecv = ::recv(socketObject, msgBuffer, sizeof(msgBuffer), MSG_DONTWAIT);
+    while (bytesRecv > 0) 
     {
-        return false;
+        streamBuffer.append(msgBuffer, bytesRecv);
+
+        readData = true;
+
+        bytesRecv = ::recv(socketObject, msgBuffer, sizeof(msgBuffer), MSG_DONTWAIT);
     }
-
-    streamBuffer.append(msgBuffer.data(), bytesRecv);
     
-    return true;
+    return readData;
 }
 
 std::optional<std::string> SocketReceiver::getNextMessage(const char separator) 
