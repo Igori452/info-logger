@@ -1,5 +1,6 @@
 #include "AppTests/AppTests.hpp"
 #include "LoggerLibTests/LoggerLibTests.hpp"
+#include "SocketAppTests/SocketAppTests.hpp"
 
 /**
  * Точка входа в программу юнит-тестирования.
@@ -15,6 +16,10 @@ int main ()
     AppTests::test_thread_manager_error_operation();
     AppTests::test_thread_manager_with_two_thread();
     AppTests::test_thread_manager_with_two_thread_error_operation();
+
+    SocketAppTests::message_statistics_test();
+    SocketAppTests::server_receiver_test();
+    SocketAppTests::server_runner_test();
 
     return 0;
 }
