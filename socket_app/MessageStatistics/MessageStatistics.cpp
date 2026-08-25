@@ -19,7 +19,7 @@ void MessageStatistics::setData(const LoggerMessage& lgmsg)
 
     const auto oneHourAgo = std::chrono::system_clock::now() - std::chrono::hours(1);
     const auto removeIt = std::remove_if(std::begin(totalMessagesAnHour), std::end(totalMessagesAnHour), [oneHourAgo](const TimePoint& tmp){
-        return oneHourAgo >= tmp;
+        return oneHourAgo > tmp;
     });
     totalMessagesAnHour.erase(removeIt, std::end(totalMessagesAnHour));
 
@@ -40,7 +40,11 @@ const std::map<MessageLevel, size_t>& MessageStatistics::getTotalLevelMessage() 
 }
 size_t MessageStatistics::getTotalMessagesAnHour() const 
 {
-    return totalMessagesAnHour.size();
+    const auto oneHourAgo = std::chrono::system_clock::now() - std::chrono::hours(1);
+    return std::count_if(std::begin(totalMessagesAnHour), std::end(totalMessagesAnHour), 
+        [oneHourAgo](const TimePoint& tmp) {
+            return tmp > oneHourAgo;
+        });
 }
 
 size_t MessageStatistics::getMinLenMessage() const 
