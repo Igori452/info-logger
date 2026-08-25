@@ -2,7 +2,6 @@
 
 #include "ErrorCodes.hpp"
 
-#include <filesystem>
 #include <fstream>
 
 /**
@@ -24,7 +23,6 @@ class OutputInterface
 class OFileInterface : public OutputInterface 
 {
     private:
-        std::filesystem::path path;
         std::ofstream ofile;
 
     public:
@@ -40,17 +38,11 @@ class OFileInterface : public OutputInterface
 class OSocketInterface : public OutputInterface
 {
     private:
-        std::string ip;
-        uint16_t port;
-
         int socketObject;
-
-        std::error_code connectToServer();
-        void disconnect();
 
     public:
         OSocketInterface() = delete;
-        OSocketInterface(std::string_view ip_, uint16_t port_);
+        OSocketInterface(int socketObject_);
 
         std::error_code write(std::string_view message) override;
 
@@ -59,6 +51,4 @@ class OSocketInterface : public OutputInterface
 
         OSocketInterface(OSocketInterface&& other) noexcept;
         OSocketInterface& operator=(OSocketInterface&& other) noexcept;
-
-        ~OSocketInterface();
 };

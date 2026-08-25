@@ -12,6 +12,7 @@ enum class LoggerError
 
     FILE_NOT_OPEN = 2,      // Не удалось открыть файл (критично)
     WRITE_FAILED = 3,       // Ошибка записи в файл (критично)
+    INVALID_SOCKET_VAL = 4, // Некорректное значение сокета (критично)
 };
 
 /**

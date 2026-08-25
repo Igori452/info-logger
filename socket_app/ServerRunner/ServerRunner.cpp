@@ -44,12 +44,14 @@ void ServerRunner::run(int sock, size_t T, size_t N, std::ostream& os)
 
         if (err == std::errc::timed_out)
         {
-            os << "Вывод статистики после таймаута T:\n";
-            printStatistic(msgStat, os);
+            if (msgStat.hasChanged()) 
+            {
+                os << "\nВывод статистики после таймаута T:";
+                printStatistic(msgStat, os);
+            }
             continue;
-        }
-
-        if (err)
+        } 
+        else if (err)
         {
             break;
         }
@@ -65,7 +67,7 @@ void ServerRunner::run(int sock, size_t T, size_t N, std::ostream& os)
 
                     if (++messageCnt >= N) 
                     {
-                        os << "Вывод статистики после каждого " << N << "-го сообщения:\n";
+                        os << "Вывод статистики после каждого " << N << "-го сообщения:";
                         printStatistic(msgStat, os);  
                         messageCnt = 0;
                     }

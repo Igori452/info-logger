@@ -18,7 +18,7 @@ class MessageStatistics
 
         size_t minLenMessage {std::numeric_limits<size_t>::max()};
         size_t maxLenMessage {0};
-        size_t averageLenMessage {0};
+        double averageLenMessage {0.0};
 
     public:
         MessageStatistics() = default;
@@ -32,5 +32,5 @@ class MessageStatistics
 
         size_t getMinLenMessage() const;
         size_t getMaxLenMessage() const;
-        size_t getAverageLenMessage() const;
+        double getAverageLenMessage() const;
 };

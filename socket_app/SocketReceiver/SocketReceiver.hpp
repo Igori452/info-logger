@@ -3,7 +3,6 @@
 #include <system_error>
 #include <optional>
 
-// Разделитель сообщения \n
 class SocketReceiver 
 {
     private:

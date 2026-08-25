@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <filesystem>
 
 std::error_code TestContext::MockInterface::write(std::string_view message) 
 {
