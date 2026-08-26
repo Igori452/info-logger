@@ -1,10 +1,10 @@
 # Система логирования (Тестовое задание C++)
 
-[![Repository](https://shields.io)](https://github.com/Igori452/info-logger)
-[![C++ Standard](https://shields.io)](https://cppreference.com)
-[![Linux Platform](https://shields.io)](https://linux.org)
-[![Docker Support](https://shields.io)](https://docker.com)
-[![Build System](https://shields.io)](https://cmake.org)
+[![Repository](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](https://github.com/Igori452/info-logger)
+[![C++ Standard](https://img.shields.io/badge/C++-17-00599C?logo=cplusplus)](https://cppreference.com)
+[![Linux Platform](https://img.shields.io/badge/Ubuntu-24.04-E95420?logo=ubuntu)](https://ubuntu.com)
+[![Docker Support](https://img.shields.io/badge/Docker-Supported-2496ED?logo=docker)](https://docker.com)
+[![Build System](https://img.shields.io/badge/CMake-3.16-064F8C?logo=cmake)](https://cmake.org)
 
 Проект выполнен в соответствии с [Техническим заданием ИнфоТеКС](docs/Razrabotchik-C_.pdf).
 
