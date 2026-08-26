@@ -40,9 +40,12 @@ class LoggerMessage
 class LoggerMessageFormater 
 {
     private:
-        static constexpr std::string_view timeMask = "%Y-%m-%d %H:%M:%S";
+        static constexpr std::string_view timeMask {"%Y-%m-%d %H:%M:%S"};
 
-    public:
+        // Принудительно добавляем 3 часа (3 * 3600 секунд) для МСК
+        static constexpr size_t timeMSKCoff {10800}; 
+
+    public: 
 
         //[ 2026-08-21 14:54:44 ] [ INFO    ] message.
         //[ 2026-08-21 14:54:44 ] [ WARNING ] message.

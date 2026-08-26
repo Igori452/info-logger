@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <iomanip>
+#include <ctime>
 
 LoggerMessage::LoggerMessage(std::string message_, MessageLevel messageLevel_) 
     : message(std::move(message_)), messageLevel(messageLevel_), 
@@ -31,8 +32,7 @@ std::string LoggerMessageFormater::formatToText(const LoggerMessage& lgmsg)
 
     std::stringstream ss;
     
-    // Принудительно добавляем 3 часа (3 * 3600 секунд) для МСК
-    tt += 10800; 
+    tt += timeMSKCoff; 
 
     ss << "[ " << std::put_time(std::gmtime(&tt), timeMask.data()) << " ] ";
 
@@ -66,7 +66,11 @@ std::optional<LoggerMessage> LoggerMessageFormater::formatToLoggerMessage(std::s
         return std::nullopt;
     }
 
-    auto messageTimeCreation = std::chrono::system_clock::from_time_t(std::mktime(&tm));
+    tm.tm_isdst = -1; 
+    std::time_t tt = ::timegm(&tm);
+    tt -= timeMSKCoff; 
+
+    auto messageTimeCreation = std::chrono::system_clock::from_time_t(tt);
 
     std::string levelMessageStr {formatedMessage.substr(26, 7)};
 
