@@ -32,7 +32,7 @@ std::string LoggerMessageFormater::formatToText(const LoggerMessage& lgmsg)
 
     std::stringstream ss;
     
-    tt += timeMSKCoff; 
+    tt += timeCoff; 
 
     ss << "[ " << std::put_time(std::gmtime(&tt), timeMask.data()) << " ] ";
 
@@ -68,7 +68,7 @@ std::optional<LoggerMessage> LoggerMessageFormater::formatToLoggerMessage(std::s
 
     tm.tm_isdst = -1; 
     std::time_t tt = ::timegm(&tm);
-    tt -= timeMSKCoff; 
+    tt -= timeCoff; 
 
     auto messageTimeCreation = std::chrono::system_clock::from_time_t(tt);
 

@@ -43,7 +43,7 @@ class LoggerMessageFormater
         static constexpr std::string_view timeMask {"%Y-%m-%d %H:%M:%S"};
 
         // Принудительно добавляем 3 часа (3 * 3600 секунд) для МСК
-        static constexpr size_t timeMSKCoff {10800}; 
+        static constexpr size_t timeCoff {10800}; 
 
     public: 
 
