@@ -2,7 +2,6 @@
 
 #include "ErrorCodes.hpp"
 
-#include <filesystem>
 #include <fstream>
 
 /**
@@ -24,7 +23,6 @@ class OutputInterface
 class OFileInterface : public OutputInterface 
 {
     private:
-        const std::filesystem::path path;
         std::ofstream ofile;
 
     public:
@@ -34,4 +32,23 @@ class OFileInterface : public OutputInterface
         std::error_code write(std::string_view message) override;
 };
 
-/* РЕАЛИЗАЦИЯ ИНТЕРФЕЙСА ВЫВОДА ДЛЯ СОКЕТА */
+/**
+ * Реализация интерфейса вывода для записи в сокет (для Linux).
+ */
+class OSocketInterface : public OutputInterface
+{
+    private:
+        int socketObject;
+
+    public:
+        OSocketInterface() = delete;
+        OSocketInterface(int socketObject_);
+
+        std::error_code write(std::string_view message) override;
+
+        OSocketInterface(const OSocketInterface&) = delete;
+        OSocketInterface& operator=(const OSocketInterface&) = delete;
+
+        OSocketInterface(OSocketInterface&& other) noexcept;
+        OSocketInterface& operator=(OSocketInterface&& other) noexcept;
+};

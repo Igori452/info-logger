@@ -13,6 +13,7 @@ std::string LoggerCategory::message(int _Errval) const
         case LoggerError::FILTERED: return "The message is unsigned because its level is lower than the default level";
         case LoggerError::FILE_NOT_OPEN: return "Cannot open the file at the specified path";
         case LoggerError::WRITE_FAILED: return "Error writing message";
+        case LoggerError::INVALID_SOCKET_VAL: return "Invalid socket value";
         default: return "unknown error";   
     }
 }

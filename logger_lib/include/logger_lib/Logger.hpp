@@ -9,9 +9,8 @@
  * Синхронный логгер с фильтрацией по уровню важности.
  * 
  * Делегирует запись через полиморфный интерфейс OutputInterface.
- * Все ошибки возвращаются через std::error_code (без исключений).
+ * Все ошибки возвращаются через std::error_code.
  */
-
 class Logger 
 {
     private:
@@ -22,6 +21,7 @@ class Logger
         Logger() = delete;
         Logger(MessageLevel defaultMessageLevel, std::unique_ptr<OutputInterface> out_);
         Logger(MessageLevel defaultMessageLevel, std::string_view journalName);
+        Logger(MessageLevel defaultMessageLevel, int socket);
 
         void setDefaultMessageLevel(MessageLevel defaultMessageLevel_);
         MessageLevel getDefaultMessageLevel() const;

@@ -6,6 +6,9 @@ Logger::Logger(MessageLevel defaultMessageLevel, std::unique_ptr<OutputInterface
 Logger::Logger(MessageLevel defaultMessageLevel, std::string_view journalName) 
     : Logger(defaultMessageLevel, std::make_unique<OFileInterface>(journalName)) {}
 
+Logger::Logger(MessageLevel defaultMessageLevel, int socket) 
+    : Logger(defaultMessageLevel, std::make_unique<OSocketInterface>(socket)) {}
+
 void Logger::setDefaultMessageLevel(MessageLevel defaultMessageLevel_) 
 {
     defaultMessageLevel = defaultMessageLevel_;

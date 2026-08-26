@@ -13,6 +13,7 @@ option(BUILD_SHARED_LIBS "Build libraries as shared" OFF)
 
 add_subdirectory(logger_lib)
 add_subdirectory(app)
+add_subdirectory(socket_app)
 
 if (BUILD_TESTS)
     enable_testing()
