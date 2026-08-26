@@ -13,6 +13,14 @@ class SocketReceiver
         SocketReceiver() = delete;
         SocketReceiver(int socketObject_);
 
+        /**
+         * Ожидание появления данных в сокете с ограничением по времени.
+         * 
+         * std::error_code{} (успех), если данные готовы для чтения.
+         * Ошибка errno (generic_category) при системном сбое poll.
+         * std::errc::timed_out, если истекло время ожидания timeoutSeconds.
+         * std::errc::broken_pipe при ошибках сокета (POLLERR, POLLHUP, POLLNVAL).
+         */
         std::error_code waitData(size_t imeoutSeconds) const;
 
         /**

@@ -46,8 +46,7 @@ std::error_code OSocketInterface::write(std::string_view message)
     
         if (sent < 0) 
         {
-            int err {errno};
-            return std::error_code(err, std::generic_category());
+            return std::error_code(errno, std::generic_category());
         }
 
         sentSize += sent;

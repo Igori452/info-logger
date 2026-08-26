@@ -3,7 +3,7 @@
 /**
  * Коды ошибок системы логирования.
  * 
- * Разделены на некритические (FILTERED) и критические (FILE_NOT_OPEN, WRITE_FAILED).
+ * Разделены на некритические (FILTERED) и критические (FILE_NOT_OPEN, WRITE_FAILED, INVALID_SOCKET_VAL).
  */
 enum class LoggerError 
 {

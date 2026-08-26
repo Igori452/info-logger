@@ -31,6 +31,9 @@ std::string LoggerMessageFormater::formatToText(const LoggerMessage& lgmsg)
 
     std::stringstream ss;
     
+    // Принудительно добавляем 3 часа (3 * 3600 секунд) для МСК
+    tt += 10800; 
+
     ss << "[ " << std::put_time(std::gmtime(&tt), timeMask.data()) << " ] ";
 
     std::string_view messageLevelString;

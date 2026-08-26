@@ -35,7 +35,7 @@ class LoggerMessage
 };
 
 /**
- * Класс-фабрика для форматирования сообщений в текстовый вид.
+ * Класс-фабрика для сериализацим и десериализации сообщений.
  */
 class LoggerMessageFormater 
 {
@@ -44,9 +44,9 @@ class LoggerMessageFormater
 
     public:
 
-        // [ 2026-08-21 14:54:44 ] [ INFO    ] message.
-        // [ 2026-08-21 14:54:44 ] [ WARNING ] message.
-        // [ 2026-08-21 14:54:44 ] [ ERROR   ] message.
+        //[ 2026-08-21 14:54:44 ] [ INFO    ] message.
+        //[ 2026-08-21 14:54:44 ] [ WARNING ] message.
+        //[ 2026-08-21 14:54:44 ] [ ERROR   ] message.
         static std::string formatToText(const LoggerMessage& lgmsg);
         static std::optional<LoggerMessage> formatToLoggerMessage(std::string_view formatedMessage);
 };
