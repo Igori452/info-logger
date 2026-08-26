@@ -1,5 +1,11 @@
 # Система логирования (Тестовое задание C++)
 
+[![Repository](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](https://github.com/Igori452/info-logger)
+[![C++ Standard](https://img.shields.io/badge/C++-17-00599C?logo=cplusplus)](https://cppreference.com)
+[![Linux Platform](https://img.shields.io/badge/Ubuntu-24.04-E95420?logo=ubuntu)](https://ubuntu.com)
+[![Docker Support](https://img.shields.io/badge/Docker-Supported-2496ED?logo=docker)](https://docker.com)
+[![Build System](https://img.shields.io/badge/CMake-3.16-064F8C?logo=cmake)](https://cmake.org)
+
 Проект выполнен в соответствии с [Техническим заданием ИнфоТеКС](docs/Razrabotchik-C_.pdf).
 
 Данный проект состоит из библиотеки для записи сообщений в журнал и консольного многопоточного приложения для демонстрации и проверки её работы, разработанных в рамках тестового задания ИнфоТеКС.
@@ -9,10 +15,10 @@
 Для компиляции используется компилятор **GCC** в среде **Ubuntu 24.04** через Docker.
 
 ### 1. Подготовка окружения (Docker)
-Соберите и запустите контейнер из корня репозитория:
+Соберите и запустите контейнер из корня репозитория (WSL):
 ```bash
 docker build -t logger-env .
-docker run -it -d -v \$(pwd):/workspace logger-env
+docker run -it -d -v ${PWD}:/workspace --name logger-container logger-env
 ```
 
 ### 2.1 Сборка в СТАТИЧЕСКОМ режиме (Часть 1)
